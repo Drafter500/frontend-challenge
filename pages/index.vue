@@ -11,7 +11,26 @@
       <ChallengeDescription />
     </details>
 
-    <img src="/img.png" alt="User avatar" height="300" />
+    <div class="avatar-wrapper">
+      <img
+        class="avatar"
+        src="/img.png"
+        alt="User avatar"
+      />
+    </div>
   </AwesomeSection>
   <UsersList />
 </template>
+
+<style scoped>
+  .avatar-wrapper {
+    width: 100%;
+  }
+
+  .avatar {
+    max-width: 100%;
+    max-height: 300px;
+  }
+</style>
+<script setup lang="ts">
+</script>

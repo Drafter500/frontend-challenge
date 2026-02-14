@@ -20,32 +20,17 @@ header {
   text-align: center;
 }
 
-.wrapper {
-  width: 100%;
-  white-space: nowrap;
-}
-
 nav {
-  display: inline-block;
-  vertical-align: top;
   background-color: #dbfbdb;
   padding: 10px;
-  height: 500px;
-  width: 20%;
 }
 
 main {
-  display: inline-block;
-  vertical-align: top;
   background-color: #e2eafc;
   padding: 20px;
-  width: 80%;
-
 }
 
 section {
-  display: inline-block;
-  vertical-align: top;
   background-color: #c1d3fe;
   padding: 15px;
   margin: 15px;
@@ -64,8 +49,9 @@ aside {
 }
 
 footer {
-  background-color: #fbd6d2;
+  margin-top: 1rem;
   padding: 10px;
+  background-color: #fbd6d2;
 }
 
 .challenge-tasks li::marker {

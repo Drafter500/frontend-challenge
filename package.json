@@ -7,7 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
     "nuxt": "^3.11.1",
@@ -16,8 +21,10 @@
   },
   "devDependencies": {
     "@nuxt/test-utils": "^3.19.2",
+    "@playwright/test": "^1.58.2",
     "@vue/test-utils": "^2.4.6",
     "happy-dom": "^18.0.1",
+    "playwright": "^1.58.2",
     "vitest": "^3.2.4"
   }
 }

@@ -8,6 +8,7 @@
         v-if="Object.keys(sortByUser).length !== 0"
         v-for="(userGallery, index) in Object.values(sortByUser)"
         :key="index"
+        data-testid="galery-user-section"
       >
         <hr v-if="index !== 0" />
         <h2>{{ userGallery.name }}</h2>

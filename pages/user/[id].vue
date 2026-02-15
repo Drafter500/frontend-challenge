@@ -1,17 +1,19 @@
 <template>
   <AwesomeArticle>
     <h1>User Todo's</h1>
-    <div>
-      Filters:
-      <span>
-        <label for="completed">Show completed</label>
-        <input type="checkbox" id="completed" />
-      </span>
-      <span>
-        <label for="pending">Show pending</label>
-        <input type="checkbox" id="pending" />
-      </span>
+    <div class="filter-group">
+      Status:
+      <label v-for="option in completenessFilterOptions" :key="option.value">
+        <input
+          type="radio"
+          name="todoFilter"
+          :value="option.value"
+          v-model="completenessFilter"
+        />
+        {{ option.label }}
+      </label>
     </div>
+
     <ul>
       <li v-for="todo in todos" :key="todo.id">
         <h4>{{ todo.title }}</h4>
@@ -24,9 +26,18 @@
 <script setup>
 const route = useRoute();
 
-const { data: todos } = useAsyncData(() =>
-  fetch(
-    `https://jsonplaceholder.typicode.com/users/${route.params.id}/todos`
-  ).then((res) => res.json())
-);
+const completenessFilterOptions = [
+  {label: 'All', value: null},
+  {label: 'Completed', value: true},
+  {label: 'Pending', value: false}
+];
+
+const completenessFilter = useState('completenessStatus', () => null);
+
+const { data: todos } = useFetch(() => `/users/${route.params.id}/todos`, {
+  baseURL: 'https://jsonplaceholder.typicode.com',
+  query: computed(() => ({
+    completed: completenessFilter.value ?? undefined,
+  })),
+});
 </script>

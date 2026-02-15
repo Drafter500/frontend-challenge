@@ -10,3 +10,12 @@
     </ul>
   </nav>
 </template>
+
+<style scoped>
+  nav {
+    background-color: #dbfbdb;
+    padding: 10px;
+    flex-basis: 20%;
+    flex-grow: 1;
+  }
+</style>

@@ -8,6 +8,7 @@
         v-if="Object.keys(sortByUser).length !== 0"
         v-for="(userGallery, index) in Object.values(sortByUser)"
         :key="index"
+        data-testid="galery-user-section"
       >
         <hr v-if="index !== 0" />
         <h2>{{ userGallery.name }}</h2>
@@ -16,7 +17,7 @@
         <p>Comments: {{ userGallery.comments.length }}</p>
         <div class="gallery">
           <template v-for="img in userGallery.photos" :key="img.id">
-            <img :src="img.picture" :alt="img.title" class="photo" />
+            <img :src="img.picture" :alt="img.title" class="photo" loading="lazy" />
           </template>
         </div>
       </div>
@@ -45,8 +46,10 @@ const sortByUser = computed(() => {
     return {};
   }
 
+  const usersMap = new Map(users.value.map((u) => [u.id, u]));
+
   return images.value.reduce((acc, img) => {
-    const user = users.value.find((u) => u.id === img.userId);
+    const user = usersMap.get(img.userId);
     if (!user) {
       return acc;
     }
@@ -72,20 +75,15 @@ async function loadUserStatistics() {
     (user.albums = []), (user.posts = []), (user.comments = []);
 
     // Fetch user Albums
-    await fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/albums`)
-      .then((res) => res.json())
+    $fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/albums`)
       .then((albums) => user.albums.push(...albums));
 
     // Fetch user Posts
-    await fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/posts`)
-      .then((res) => res.json())
+    $fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/posts`)
       .then((posts) => user.posts.push(...posts));
 
     // Fetch user Comments
-    await fetch(
-      `https://jsonplaceholder.typicode.com/users/${user.id}/comments`
-    )
-      .then((res) => res.json())
+    $fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/comments`)
       .then((comments) => user.comments.push(...comments));
   }
 }
@@ -93,6 +91,24 @@ async function loadUserStatistics() {
 if (error.value) {
   console.error('Failed to load images:', error.value);
 }
+
+// Suggestions to improve performance:
+// 1. Use imp lazy loading (done)
+// 2. Enable parallel requests execution (already removed await)
+// Wrap in the loop in Promise.all for better structure.
+// 3. This component does too much in regards to data aggregation and
+// transformation. It belongs to BFF. The component should ideally call
+// one fetch (could be done during SSR phase) that returns ready to display
+// data. Thus less requests made from frontend, less CPU spent on transformation
+// 4. Related to previous point: do not transfer not used data, in this page we
+// only show the posts, comments, albums count, we do not need to transfer the
+// full objects. Less payload sent, better performance.
+// 5. Overall page structure looks weird, too much content. Maybe we can split
+// the page by users, or show only first 5-8 images per user and the rest could
+// be loaded in demand ("load more photos" button).
+// 6. Got rid of users.value.find inside images.value.reduce. Is was like
+// double loop, on large dataset could be slow. I consider it as a minor
+// improvement
 </script>
 
 <style scoped>

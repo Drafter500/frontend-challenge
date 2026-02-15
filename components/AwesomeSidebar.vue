@@ -21,3 +21,12 @@
     <p>Random text to conclude.</p>
   </aside>
 </template>
+
+<style scoped>
+  aside {
+    background-color: #fffacd;
+    padding: 20px;
+    flex-basis: 20%;
+    flex-grow: 1;
+  }
+</style>

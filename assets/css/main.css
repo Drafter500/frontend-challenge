@@ -20,11 +20,6 @@ header {
   text-align: center;
 }
 
-nav {
-  background-color: #dbfbdb;
-  padding: 10px;
-}
-
 main {
   background-color: #e2eafc;
   padding: 20px;
@@ -41,11 +36,6 @@ article {
   background-color: #e0ffff;
   padding: 10px;
   width: 100%;
-}
-
-aside {
-  background-color: #fffacd;
-  padding: 20px;
 }
 
 footer {
